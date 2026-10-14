@@ -39,6 +39,7 @@ void go(char* args, int alen) {
     // https://github.com/its-a-feature/HealthInspector/blob/20af1ce805144ad96c0b1bbdaa56959aa5423cfc/HealthInspector.js#L1059
     bool has_carbon_black = file_exists("/Applications/CarbonBlack/CbOsxSensorService");
     bool has_cb_defense = file_exists("/Applications/Confer.app");
+    bool has_ms_defender = file_exists("/Library/Application Support/Microsoft/Defender");
     bool has_eset = file_exists("/Library/Application Support/com.eset.remoteadministrator.agent");
     bool has_little_snitch = file_exists("/Library/Little Snitch/");
     bool has_fireeye_hx = file_exists("/Library/FireEye/xagt");
@@ -105,6 +106,9 @@ void go(char* args, int alen) {
         else if (libSystem$strcasestr(name, "CbDefense")) {
             has_cb_defense = true;
         }
+        else if (libSystem$strcasestr(name, "Microsoft Defender")) {
+            has_ms_defender = true;
+        }
         else if (libSystem$strcasestr(name, "Snitch")) {
             has_little_snitch = true;
         }
@@ -166,6 +170,7 @@ void go(char* args, int alen) {
 
     report_finding(has_carbon_black, "Carbon Black Sensor installed\n");
     report_finding(has_cb_defense, "CB Defense A/V installed\n");
+    report_finding(has_ms_defender, "Microsoft Defender installed\n");
     report_finding(has_eset, "ESET A/V installed\n");
     report_finding(has_little_snitch, "Little Snitch firewall found\n");
     report_finding(has_fireeye_hx, "FireEye HX agent found\n");
